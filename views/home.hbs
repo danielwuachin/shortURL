@@ -1,0 +1,7 @@
+<h1>Hola desde homee</h1>
+
+{{!-- como en symfony, podemos hacer ciclos y otras cosas dentro de hbs, ver documentacion --}}
+{{#each urls}}
+{{!-- asi importamos (recuerda cambiar el create.hbs en el index) --}}
+  {{> Card item=this}}
+{{/each}}
