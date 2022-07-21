@@ -12,6 +12,13 @@
   {{> Navbar}}
   {{!-- con triplellaves llamamos a otros archivos tipo componentes --}}
   <div class="container mt-3">
+
+    {{!-- itera el array de los mensajes de error --}}
+    {{#each mensajes}}
+    <div class="alert alert-dark mb-2">{{this.msg}}</div>
+
+    {{/each}}
+
     {{{body}}}
   </div>
 

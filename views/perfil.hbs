@@ -1,0 +1,28 @@
+<h1 class="text-center">{{user.userName}}</h1>
+<p class="mt-2">Edita aqui tu perfil</p>
+<div class="my-5 text-center">
+  {{! recuerda que todo se carga como si estuviera en la carpeta public }}
+  {{#if imagen}}
+    <img src="/img/perfiles/{{imagen}}" alt="" class="rounded-circle" />
+    {{else}}
+    <img src="/img/perfiles/perfil.jpg" alt="" class="rounded-circle" />
+  {{/if}}
+
+</div>
+
+{{! recuerda el ecntype para poder usar archivos }}
+{{! para que mande el token de seguirdad en mutipart/form-data, se hace con una query en la url }}
+<form
+  action="/perfil?_csrf={{csrfToken}}"
+  method="post"
+  enctype="multipart/form-data"
+>
+  {{!-- <input type="hidden" name="_csrf" value="{{csrfToken}}" /> --}}
+  <input
+    class="form-control form-control-sm"
+    id="formFileSm"
+    type="file"
+    name="myFile"
+  />
+  <button class="btn btn-dark my-3">Cambiar imagen de perfil</button>
+</form>
