@@ -58,7 +58,11 @@ const registerUser = async (req, res) => {
       to: user.email, // quienes reciben, el usuario que se esta registrando
       subject: "Hello ✔", // asunto
       // text: "Hello world?", body en texto
-      html: `<a href="${process.env.PATHHEROKU || 'http://localhost:5000'}/auth/confirmar/${user.tokenConfirm}">verifica tu cuenta dando click aqui!</a>`, // body en html
+      html: `<a href="${
+        process.env.PATHHEROKU || "http://localhost:5000/"
+      }auth/confirmar/${
+        user.tokenConfirm
+      }">verifica tu cuenta dando click aqui!</a>`, // body en html
     });
 
     //redirigimos al login para que pueda iniciar sesion y a su vez un mensaje flash para recordarle
