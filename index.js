@@ -36,7 +36,12 @@ app.use(cors(corsOptions));
 esto se almacena en la memoria de la maquina, sirve para que el usuario no tenga que iniciar sesion cada vez que refresca
 se recomienda que siempre se almacenen en base de datos 
 se instalan las sesiones, se crea el middleware, se crean las sesiones
-y se crean las rutas donde se crearan las sesiones*/
+y se crean las rutas donde se crearan las sesiones
+
+para que funcione el secure en true en produccion, con https, se necesita habilitar el proxy
+
+*/
+app.set("trust proxy", 1);
 app.use(
   session({
     // palabra secreta para darle seguridad a la sesion
