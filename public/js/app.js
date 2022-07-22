@@ -1,6 +1,7 @@
 document.addEventListener("click", (e) => {
   if (e.target.dataset.short) {
-    const url = `http://localhost:5000/${e.target.dataset.short}`;
+    // asi obtenemos la url actual con origin
+    const url = `${window.location.origin}/${e.target.dataset.short}`;
 
     // objeto del navegador clipboard
     navigator.clipboard

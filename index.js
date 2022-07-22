@@ -11,9 +11,24 @@ const passport = require("passport");
 // CSRF
 const csrf = require("csurf");
 
+//CORS
+const cors = require("cors");
+// para evitar mongo injection
+const mongoSanitize = require("express-mongo-sanitize");
+
 const { create } = require("express-handlebars");
 const User = require("./models/User");
+const MongoStore = require("connect-mongo");
+const clientDB = require("./database/db");
 const app = express();
+
+// CORS, para acetar los cors
+const corsOptions = {
+  credentials: true,
+  origin: process.env.PATHHEROKU || "*",
+  methods: ["GET", "POST"],
+};
+app.use(cors(corsOptions));
 
 //middlewares siempre vand despues del app
 
@@ -25,10 +40,19 @@ y se crean las rutas donde se crearan las sesiones*/
 app.use(
   session({
     // palabra secreta para darle seguridad a la sesion
-    secret: "keyboard cat",
+    secret: process.env.SECRETSESSION,
     resave: false,
     saveUninitialized: false,
-    name: "secret-name",
+    name: "session-user",
+    store: MongoStore.create({
+      clientPromise: clientDB,
+      dbName: process.env.DBNAME,
+    }),
+    // en produccion para que solo tome peticiones https y cuanto dura la sesion, HEROKU nos proporciona un https, si estas en desarrollo COLOCALO EN FALSE, ya que localhost es http
+    cookie: {
+      secure: process.env.MODO === "production" ? true : false,
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+    },
   })
 );
 
@@ -104,6 +128,9 @@ app.use(express.static(__dirname + "/public"));
 
 // cuando no son APIS y tratas con formularios, debes usar este middleware para poder leer lo que se envia a traves del formulario y manejar esos datos
 app.use(express.urlencoded({ extended: true }));
+
+// sanitizar y evitar mongo injection
+app.use(mongoSanitize());
 
 // middleware para CSRF
 app.use(csrf());
